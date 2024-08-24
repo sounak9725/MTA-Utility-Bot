@@ -1,0 +1,20 @@
+{
+  "name": "oa_admin_bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "moment": "^2.30.1",
+    "mongoose": "^8.5.3",
+    "noblox.js": "^6.0.2",
+    "node-fetch": "^2.6.7",
+    "sharp": "^0.33.5"
+  }
+}

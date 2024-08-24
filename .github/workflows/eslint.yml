@@ -1,0 +1,34 @@
+name: ESLint Validation
+
+on:
+  push:
+  pull_request:  # Add pull request to trigger linting on PRs as well
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npx eslint -c eslint.config.mjs ./
+
+      - name: Annotate ESLint Issues
+        if: failure()
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            eslint: '**/*.js'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

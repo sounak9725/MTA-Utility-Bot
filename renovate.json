@@ -1,0 +1,19 @@
+{
+    "extends": ["config:base"],
+    "automerge": true,
+    "automergeType": "branch", 
+    "platformAutomerge": true, 
+    "labels": ["dependencies"], 
+    "commitMessagePrefix": "chore(deps):", 
+    "dependencyDashboard": false, 
+    "prHourlyLimit": 5, 
+    "prConcurrentLimit": 10, 
+    "packageRules": [
+      {
+        "matchDepTypes": ["dependencies", "devDependencies"], 
+        "automerge": true, 
+        "stabilityDays": 0 
+      }
+    ],
+    "updateNotScheduled": false 
+  }

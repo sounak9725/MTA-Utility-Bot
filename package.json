@@ -16,5 +16,10 @@
     "noblox.js": "^6.0.2",
     "node-fetch": "^2.6.7",
     "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "eslint": "^9.9.1",
+    "globals": "^15.9.0"
   }
 }

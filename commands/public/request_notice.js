@@ -122,15 +122,15 @@ module.exports = {
 
         const row = new ActionRowBuilder().addComponents(acceptButton, denyButton);
 
-        const targetChannelId = '1262459476359905352'; // Replace with your channel ID
+        const targetChannelId = '1252146604203573319'; // Replace with your channel ID
         const targetChannel = await interaction.client.channels.fetch(targetChannelId);
 
         // Determine the role to ping based on the group selected
         let roleToPing;
         if (group === 'OA') {
-            roleToPing = '<@&1272511687433523283>'; // Replace with your OA role ID
+            roleToPing = '<@&844895585069039627>'; // Replace with your OA role ID
         } else if (group === 'DS') {
-            roleToPing = '<@&1276074525863444571>'; // Replace with your DS role ID
+            roleToPing = '<@&1253089110856302734>'; // Replace with your DS role ID
         }
 
         const message = await targetChannel.send({ content: `${roleToPing}, a new inactivity notice has been submitted.`, embeds: [embed], components: [row] });
@@ -139,7 +139,7 @@ module.exports = {
         const collector = message.createMessageComponentCollector({ filter, time: 7 * 24 * 60 * 60 * 1000 }); // 1 week
 
         collector.on('collect', async i => {
-            const allowedRoles = ['1272510518036529233', '1275744201342058547', '964465282120830986']; // Replace with your actual role IDs
+            const allowedRoles = ['1253089110856302734', '844895585069039627']; // Replace with your actual role IDs
             const hasPermission = i.member.roles.cache.some(role => allowedRoles.includes(role.id));
 
             if (!hasPermission) {

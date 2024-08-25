@@ -77,10 +77,10 @@ module.exports = {
 
         const row = new ActionRowBuilder().addComponents(acceptButton, denyButton);
 
-        const targetChannelId = '1265982268162183178'; // Replace with your channel ID
+        const targetChannelId = '1258502611095785552'; // Replace with your channel ID
         const targetChannel = await interaction.client.channels.fetch(targetChannelId);
 
-        const message = await targetChannel.send({ content: '@Staff, a new event is up for grabs! Let\'s get to it.', embeds: [embed], components: [row] });
+        const message = await targetChannel.send({ content: '<@&844895864774066186> <@&1252147562925002853>, a new event is up for grabs! Let\'s get to it.', embeds: [embed], components: [row] });
         
         const filter = i => ['accept', 'deny'].includes(i.customId);
 
@@ -89,7 +89,7 @@ module.exports = {
 
         collector.on('collect', async i => {
             if (i.customId === 'accept') {
-                const allowedRoles = ['1272510518036529233', '1008740660880355428']; // Replace with the actual role IDs
+                const allowedRoles = ['1252147562925002853', '844895864774066186', '1252144963873935371']; // Replace with the actual role IDs
                 const hasPermission = i.member.roles.cache.some(role => allowedRoles.includes(role.id));
                 if (!hasPermission) {
                     return i.reply({ content: 'You do not have permission to accept this event.', ephemeral: true });

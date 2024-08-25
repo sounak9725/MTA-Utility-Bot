@@ -15,7 +15,7 @@ module.exports = {
     run: async(client, interaction) => {
         // Defer the reply to give more time for processing
         await interaction.deferReply({ ephemeral: false });
-        const targetChannelId = '1265982268162183178'; // Replace with the ID of the channel you want to send the message to
+        const targetChannelId = '1252151829362507816'; // Replace with the ID of the channel you want to send the message to
         
 
         try {
@@ -55,7 +55,7 @@ module.exports = {
 
             // Send the embed to the target channel
             
-            await targetChannel.send({content:'<@&1264055683884646482> New review buddies. Get them.', embeds: [embed] });
+            await targetChannel.send({content:'<@&1252148479225237567> New review buddies. Get them.', embeds: [embed] });
 
             // Optionally, respond to the interaction to confirm the action
             await interaction.editReply({ content: `Profile info for ${username} has been sent to <#${targetChannelId}>.`, ephemeral: true });

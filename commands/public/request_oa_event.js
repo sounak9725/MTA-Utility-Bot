@@ -110,7 +110,7 @@ const {
         denyButton
       );
   
-      const targetChannelId = "1262459476359905352"; // Replace with your channel ID
+      const targetChannelId = "1258502611095785552"; // Replace with your channel ID
       const targetChannel = await interaction.client.channels.fetch(
         targetChannelId
       );
@@ -132,7 +132,7 @@ const {
   
       collector.on("collect", async (i) => {
         if (i.customId === "accept") {
-          const allowedRoles = ["964465282120830986", "844895864774066186", "1252144963873935371"]; // Replace with the actual role IDs
+          const allowedRoles = ["844895864774066186", "844895585069039627"]; // Replace with the actual role IDs
           const hasPermission = i.member.roles.cache.some((role) =>
             allowedRoles.includes(role.id)
           );

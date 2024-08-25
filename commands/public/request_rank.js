@@ -72,10 +72,10 @@ module.exports = {
                     embed.setImage(proofAttachment.url);
                 }
 
-                const targetChannelId = '1265982268162183178'; // Replace with your channel ID
+                const targetChannelId = '1252137489976660041'; // Replace with your channel ID
                 const targetChannel = await interaction.client.channels.fetch(targetChannelId);
 
-                await targetChannel.send({ content: `<@&1265982268162183178>`, embeds: [embed] });
+                await targetChannel.send({ content: `<@&1253089110856302734>`, embeds: [embed] });
                 await interaction.editReply({ content: 'Your SDI App Passed request has been submitted.', ephemeral: true });
 
                 // Send DM to the user
@@ -108,14 +108,14 @@ module.exports = {
                 case 'instructor-in-training':
                 case 'novice drill instructor':
                 case 'senior drill instructor':
-                    pingRole = '<@&1264055683884646482>';
+                    pingRole = '<@&1253089110856302734>';
                     break;
                 case 'warrant officer':
                 case 'officer cadet grade ii':
                 case 'officer cadet grade iii':
                 case 'junior officer':
                 case 'staff':
-                    pingRole = '<@&1264055683884646482>';
+                    pingRole = '<@&844895640692457493>';
                     break;
                 default:
                     return interaction.editReply({ content: 'Invalid rank requested.', ephemeral: true });

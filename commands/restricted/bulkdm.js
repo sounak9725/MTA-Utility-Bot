@@ -1,61 +1,86 @@
-const { SlashCommandBuilder, CommandInteraction, Client } = require('discord.js');
+const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { requiredRoles } = require('../../config.json').discord;
+const { interactionEmbed } = require('../../functions');
 
 module.exports = {
-    name: 'bulkdm',
-    description: 'Send a DM to all members of a specific role.',
+    name: 'bulk_dm',
+    description: 'Send a direct message to all members of a specified role.',
     data: new SlashCommandBuilder()
-        .setName('bulkdm')
-        .setDescription('Send a DM to all members of a specific role.')
-        .addStringOption(option =>
+        .setName('bulk_dm')
+        .setDescription('Send a direct message to all members of a specified role.')
+        .addRoleOption(option =>
             option.setName('role')
-                .setDescription('Mention the role or enter the role ID')
-                .setRequired(true))
+                .setDescription('The role to DM all members of')
+                .setRequired(true)
+        )
         .addStringOption(option =>
             option.setName('message')
-                .setDescription('The message to send to each member')
-                .setRequired(true)),
-
+                .setDescription('The message to send to all members')
+                .setRequired(true)
+        ),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
      */
     run: async (client, interaction) => {
         await interaction.deferReply({ ephemeral: true });
+        
+        const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
+        if (!hasRole) {
+            return interactionEmbed(3, "[ERR-UPRM]", '', interaction, client, [true, 30]);
+        }
 
-        const roleInput = interaction.options.getString('role');
-        const messageToSend = interaction.options.getString('message');
-        const guild = interaction.guild;
+        const role = interaction.options.getRole('role');
+        const message = interaction.options.getString('message');
+        const sender = interaction.member;
 
-        // Extract role ID from mention or use the input directly if it's an ID
-        const roleId = roleInput.match(/^<@&(\d+)>$/)?.[1] || roleInput;
+        if (!role) {
+            return interaction.editReply({ content: 'Role not found.', ephemeral: true });
+        }
+
+        await interaction.editReply({ content: `Fetching members with the role ${role.name}...`, ephemeral: true });
 
         try {
-            // Fetch the role from the guild
-            const role = await guild.roles.fetch(roleId);
+            // Fetch all members in the guild to ensure we have everyone
+            const members = await interaction.guild.members.fetch();
 
-            if (!role) {
-                return interaction.editReply({ content: 'Role not found. Please provide a valid role ID or mention the role.', ephemeral: true });
+            // Filter the members who have the specified role
+            const roleMembers = members.filter(member => member.roles.cache.has(role.id));
+
+            if (roleMembers.size === 0) {
+                return interaction.editReply({ content: 'There are no members in this role.', ephemeral: true });
             }
 
-            const membersWithRole = role.members;
+            let sentCount = 0;
+            let failedCount = 0;
 
-            if (membersWithRole.size === 0) {
-                return interaction.editReply({ content: 'No members found with the specified role.', ephemeral: true });
-            }
-
-            // Send the message to each member with the role
-            membersWithRole.forEach(async (member) => {
+            
+            for (const [memberId, member] of roleMembers) {
                 try {
-                    await member.send(messageToSend);
+                    await member.send(message);
+                    sentCount++;
                 } catch (error) {
-                    console.error(`Could not send DM to ${member.user.tag}:`, error);
+                    console.error(`Failed to send DM to ${member.user.tag}:`, error);
+                    failedCount++;
                 }
-            });
+            }
 
-            await interaction.editReply({ content: `Message sent to ${membersWithRole.size} members with the role **${role.name}**.`, ephemeral: true });
+            // Provide a summary of sent and failed messages
+            const summaryEmbed = new EmbedBuilder()
+                .setColor('#0099ff')
+                .setTitle('Bulk DM Report')
+                .setDescription(`Finished sending DMs to members of the role ${role.name}.`)
+                .addFields(
+                    { name: 'Total Members', value: roleMembers.size.toString(), inline: true },
+                    { name: 'Messages Sent', value: sentCount.toString(), inline: true },
+                    { name: 'Failed to Send', value: failedCount.toString(), inline: true }
+                );
+
+            await interaction.editReply({ embeds: [summaryEmbed], ephemeral: true });
+
         } catch (error) {
-            console.error(error);
-            await interaction.editReply({ content: `An error occurred: ${error.message}`, ephemeral: true });
+            console.error('Error fetching members:', error);
+            await interaction.editReply({ content: 'An error occurred while fetching members. Please try again later.', ephemeral: true });
         }
     }
 };

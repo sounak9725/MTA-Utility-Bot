@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, CommandInteraction, Client, EmbedBuilder } = require('discord.js');
 const noblox = require('noblox.js');
+const { interactionEmbed } = require('../../functions');
+const { requiredRoles } = require('../../config.json').discord;
 
 module.exports = {
     name: 'rank',
@@ -22,9 +24,12 @@ module.exports = {
      */
     run: async (client, interaction) => {
         await interaction.deferReply();
-
+        const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
+        if (!hasRole) {
+        return interactionEmbed(3, "[ERR-UPRM]",'', interaction, client, [true, 30]);
+        }
         const group = interaction.options.getString('group');
-        const groupId = group === 'OA' ? '13818806' : '13818806'; // OA or DS group IDs
+        const groupId = group === 'OA' ? '10436572' : '10421203'; // OA or DS group IDs
 
         try {
             // Fetch group roles from Roblox

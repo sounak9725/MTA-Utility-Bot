@@ -1,29 +1,6 @@
 const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
-const User = require('../../DBModals/User');
-
-// Function to check for alternate accounts
-async function checkForAlternateAccounts(userId) {
-    try {
-        // Find the user document based on userId
-        const userDocument = await User.findOne({ userId });
-
-        if (!userDocument) {
-            return []; // Return an empty array if the user is not found
-        }
-
-        const userIP = userDocument.ip; // Assuming the document has an 'ip' field
-
-        // Find all users with the same IP address, excluding the original user
-        const alternateAccounts = await User.find({ ip: userIP, userId: { $ne: userId } });
-
-        // Map the results to an array of user IDs
-        return alternateAccounts.map(account => account.userId);
-
-    } catch (error) {
-        console.error('Error checking for alternate accounts:', error);
-        return []; // Return an empty array in case of an error
-    }
-}
+const { interactionEmbed } = require('../../functions');
+const { requiredRoles } = require('../../config.json').discord;
 
 // Define the /scan command
 module.exports = {
@@ -42,19 +19,20 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     run: async (client, interaction) => {
+        await interaction.deferReply({ephemeral: false});
         const userId = interaction.options.getString('userid');
-
+        const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
+        if (!hasRole) {
+        return interactionEmbed(3, "[ERR-UPRM]",'', interaction, client, [true, 30]);
+        }
         try {
             // Fetch the user information from Discord
             const user = await client.users.fetch(userId);
 
             if (!user) {
-                return interaction.reply({ content: 'User not found.', ephemeral: false });
+                return interaction.editReply({ content: 'User not found.', ephemeral: false });
             }
-
-            // Check for alternate accounts
-            const alternateAccounts = await checkForAlternateAccounts(userId);
-
+            console.log("here");
             // Create an embed message
             const embed = new EmbedBuilder()
                 .setColor('#0099ff')
@@ -72,26 +50,11 @@ module.exports = {
             const member = interaction.guild.members.cache.get(userId);
             embed.addFields({ name: 'Guild Member', value: member ? 'Yes' : 'No', inline: false });
 
-            // List alternate accounts if any
-            if (alternateAccounts.length > 0) {
-                embed.addFields({
-                    name: 'Alternate Accounts',
-                    value: alternateAccounts.join('\n'),
-                    inline: false
-                });
-            } else {
-                embed.addFields({
-                    name: 'Alternate Accounts',
-                    value: 'None found.',
-                    inline: false
-                });
-            }
-
             // Send the embed response to the channel
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.editReply({ embeds: [embed], ephemeral: true });
         } catch (error) {
             console.error('Error executing scan command:', error);
-            await interaction.reply({ content: 'An error occurred while executing the command. Please try again later.', ephemeral: true });
+            await interaction.editReply({ content: 'An error occurred while executing the command. Please try again later.', ephemeral: true });
         }
     }
 };

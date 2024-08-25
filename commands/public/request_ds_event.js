@@ -23,7 +23,7 @@ module.exports = {
                     { name: 'Physical Training', value: 'Physical Training' },
                     { name: 'Border Protocol Supervision', value: 'Border Patrol Supervision' },
                     { name: 'Supervision Evaluation (DI)', value: 'Supervision Evaluation (DI)' },
-                    { name: 'UT Evaluation', value: 'UT Evaluation' },
+                    { name: 'Evaluation', value: 'Evaluation' },
                 )
                 .setRequired(true)),
 

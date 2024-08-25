@@ -3,7 +3,6 @@ const { ApplicationCommandOptionType } = require("discord-api-types/v10");
 const { interactionEmbed, toConsole } = require("./functions.js");
 const fs = require("node:fs");
 const config = require("./config.json");
-const mongoose = require('mongoose');
 const noblox = require("noblox.js");
 let ready = false;
 const path = require("path");
@@ -17,9 +16,9 @@ client.modals = new Collection();
    // Log into Roblox using noblox.js
    async function startNoblox() {
     try {
-      await noblox.setCookie(config.roblox.mainOCtoken);
-      const currentUser = await noblox.getCurrentUser();
-        console.log(`Logged in as ${currentUser.UserName} (${currentUser.UserID})`);
+      await noblox.setCookie(config.roblox.mainOCtoken, false);
+      const currentUser = await noblox.getAuthenticatedUser();
+        console.log(`Logged in as ${currentUser.name} (${currentUser.id})`);
     } catch (error) {
       console.error('Failed to log into Roblox:', error);
     }
@@ -31,15 +30,6 @@ client.once("ready", async () => {
   client.user.setActivity("Syrian Politic's brain!", { type: ActivityType.Watching });
   //End of bot status
 
-  main().catch(err => console.log(err));
-  async function main() {
-  try {
-    await mongoose.connect(config.bot.uri);
-      console.log("Database connection established!");
-    } catch (err) {
-      console.log("Failed to connect to database: " + err);
-    }
- }
   //Commands
   await startNoblox();
   const loadCommands = (folderPath, type) => {
@@ -68,29 +58,11 @@ client.once("ready", async () => {
   const globalCommands = loadCommands(path.join(__dirname, "commands", "public"),"PUBLIC");
   const oaCommands = loadCommands(path.join(__dirname, "commands", "restricted"), "STAFF");
 
-  //Modals
-  const modals = fs.readdirSync("./modals").filter(file => file.endsWith(".js"));
-  console.info(`[MDL-LOAD] Loading modals, expecting ${modals.length} modals`);
-  for (let file of modals) {
-    try {
-      console.info(`[MDL-LOAD] Loading file ${file}`);
-      let modal = require(`./modals/${file}`);
-
-      if (modal.name) {
-        console.info(`[MDL-LOAD] Loaded: ${file}`);
-        client.modals.set(modal.name, modal);
-      }
-    } catch (e) {
-      console.warn(`[MDL-LOAD] Unloaded: ${file}`);
-      console.warn(`[MDL-LOAD] ${e}`);
-    }
-  }
-  console.info("[MDL-LOAD] Loaded modals");
 
   await client.application.commands.set(globalCommands); //global commands (punishmentsubmission and backgroundcheckrequest)
 
-  await client.guilds.cache.get("960952766350639154").commands.set(oaCommands); // guild commands for FS Automations (includes the rest of the commands)
-  await client.guilds.cache.get("960952766350639154").commands.set(oaCommands); // this should be for FSS, suman add the FSS guild id here
+  await client.guilds.cache.get("844894595912433685").commands.set(oaCommands); // guild commands for FS Automations (includes the rest of the commands)
+  await client.guilds.cache.get("844894595912433685").commands.set(oaCommands); // this should be for FSS, suman add the FSS guild id here
   ready = true;
   toConsole("Client has logged in and is ready", new Error().stack, client);
 

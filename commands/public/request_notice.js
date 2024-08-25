@@ -133,13 +133,13 @@ module.exports = {
             roleToPing = '<@&1276074525863444571>'; // Replace with your DS role ID
         }
 
-        const message = await targetChannel.send({ content: `${roleToPing}, a new inactivity notice has been submitted.`, embeds: [embed], files: [attachment], components: [row] });
+        const message = await targetChannel.send({ content: `${roleToPing}, a new inactivity notice has been submitted.`, embeds: [embed], components: [row] });
         
         const filter = i => ['accept', 'deny'].includes(i.customId);
         const collector = message.createMessageComponentCollector({ filter, time: 7 * 24 * 60 * 60 * 1000 }); // 1 week
 
         collector.on('collect', async i => {
-            const allowedRoles = ['1272510518036529233', '1275744201342058547']; // Replace with your actual role IDs
+            const allowedRoles = ['1272510518036529233', '1275744201342058547', '964465282120830986']; // Replace with your actual role IDs
             const hasPermission = i.member.roles.cache.some(role => allowedRoles.includes(role.id));
 
             if (!hasPermission) {

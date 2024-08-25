@@ -1,4 +1,6 @@
 const { SlashCommandBuilder, CommandInteraction, Client, ChannelType } = require('discord.js');
+const { interactionEmbed } = require('../../functions');
+const { requiredRoles } = require('../../config.json').discord;
 
 module.exports = {
     name: 'speak',
@@ -22,7 +24,10 @@ module.exports = {
      */
     run: async (client, interaction) => {
         await interaction.deferReply({ ephemeral: true });
-
+        const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
+        if (!hasRole) {
+        return interactionEmbed(3, "[ERR-UPRM]",'', interaction, client, [true, 30]);
+        }
         const targetChannel = interaction.options.getChannel('channel');
         const messageContent = interaction.options.getString('message');
 

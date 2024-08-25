@@ -14,7 +14,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("promote")
     .setDescription("Promotes a user one rank above.")
-    .addUserOption(option => // Changed from addStringOption to addUserOption
+    .addUserOption(option => 
       option.setName("user")
         .setDescription("Select the Discord user to promote on Roblox")
         .setRequired(true)
@@ -72,9 +72,7 @@ module.exports = {
     if (await roblox.getRankInGroup(groupId, robloxid) == 0) {
       return interactionEmbed(3, "The user is not in the selected group.", "", interaction, client, [true, 30]);
     }
-    const groupun =  await roblox.getGroup(groupId);
-    console.log(groupun);
-
+    
     // Promote the user in the selected group
     await roblox.promote(groupId, robloxid)
       .then(async (success) => {

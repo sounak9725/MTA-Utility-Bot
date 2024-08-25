@@ -55,9 +55,9 @@ module.exports = {
 
         try {
             if (rank.toLowerCase() === 'sdi app passed') {
-                // Handle SDI App Passed rank separately
+                
                 const embed = new EmbedBuilder()
-                    .setColor('Blue') // Different color for SDI App Passed
+                    .setColor('Blue') 
                     .setTitle('Rank Request: SDI App Passed')
                     .addFields(
                         { name: 'Username', value: user, inline: true },

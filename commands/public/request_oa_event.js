@@ -120,6 +120,10 @@ module.exports = {
       messageContent =
         "<@&1252454009952931881>, a new Knowledge Exam event is up for grabs!";
     }
+    else if(eventDetails === "UT Evaluation")
+      {
+        messageContent = "<@&1059343620198633472>, a new UT Evaluation is up fro grabs!"
+    }
 
     const message = await targetChannel.send({
       content: messageContent,

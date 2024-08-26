@@ -31,7 +31,7 @@ module.exports = {
     .addStringOption(option =>
       option.setName("reason")
         .setDescription("Reason for the promotion")
-        .setRequired(true)
+        .setRequired(false)
     ),
   /**
   * @param {Client} client
@@ -49,7 +49,7 @@ module.exports = {
 
     const discordUser = options.getUser("user"); // Get the selected Discord user
     const selectedGroup = options.getString("group"); // Get the selected group
-    const reason = options.getString("reason");
+    const reason = options.getString("reason") || 'NA';
 
     // Determine group ID based on selected option
     const groupId = selectedGroup === "ds" ? dsGroupId : oaGroupId;

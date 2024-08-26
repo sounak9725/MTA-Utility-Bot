@@ -17,6 +17,7 @@ module.exports = {
                 .setDescription('Select event')
                 .addChoices(
                     { name: 'Co-hosting by SDI+', value: 'Co-hosting by SDI+' },
+                    { name: 'IIT Introductory Lecture', value: 'IIT Introductory Lecture' },
                     { name: 'Weapons Training', value: 'Weapons Training' },
                     { name: 'Discipline Training', value: 'Discipline Training' },
                     { name: 'Patrol Supervision', value: 'Patrol Supervision' },

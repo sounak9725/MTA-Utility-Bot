@@ -96,8 +96,8 @@ module.exports = {
             // Fetch user's current rank in the OA and DS groups
             let currentRankOA, currentRankDS;
             try {
-                currentRankOA = await noblox.getRankNameInGroup(10436572, userId); // OA group
-                currentRankDS = await noblox.getRankNameInGroup(10421203, userId); // DS group
+                currentRankOA = await noblox.getRankNameInGroup(10436572, userId) || 'NA'; // OA group
+                currentRankDS = await noblox.getRankNameInGroup(10421203, userId) || 'NA'; // DS group
             } catch (error) {
                 return interaction.editReply({ content: 'Failed to fetch current rank. Please try again later.', ephemeral: true });
             }

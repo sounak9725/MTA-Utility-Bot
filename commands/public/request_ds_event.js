@@ -22,7 +22,7 @@ module.exports = {
                     { name: 'Discipline Training', value: 'Discipline Training' },
                     { name: 'Patrol Supervision', value: 'Patrol Supervision' },
                     { name: 'Physical Training', value: 'Physical Training' },
-                    { name: 'Border Protocol Supervision', value: 'Border Patrol Supervision' },
+                    { name: 'Border Protocol Supervision', value: 'Border Protocol Supervision' },
                     { name: 'Supervision Evaluation (DI)', value: 'Supervision Evaluation (DI)' },
                     { name: 'Evaluation', value: 'Evaluation' },
                 )

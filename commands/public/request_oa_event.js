@@ -44,7 +44,8 @@ module.exports = {
           { name: "UT Evaluation", value: "UT Evaluation" },
           { name: "Essentials Lecture Pt.1", value: "Essentials Lecture Pt.1" },
           { name: "Essentials Lecture Pt.2", value: "Essentials Lecture Pt.2" },
-          { name: "Knowledge Exam", value: "Knowledge Exam" }
+          { name: "Knowledge Exam", value: "Knowledge Exam" },
+          {name: "Graduation", value: "Graduation"}
         )
         .setRequired(true)
     ),
@@ -122,7 +123,11 @@ module.exports = {
     }
     else if(eventDetails === "UT Evaluation")
       {
-        messageContent = "<@&1059343620198633472>, a new UT Evaluation is up fro grabs!"
+        messageContent = "<@&1059343620198633472>, a new UT Evaluation is up for grabs!"
+    }
+    else if(eventDetails === "Graduation")
+    {
+       messageContent = `<@&1059343620198633472>, a Graduation is up for grabs! <@&${interaction.user.id} you passed exam? omg`
     }
 
     const message = await targetChannel.send({

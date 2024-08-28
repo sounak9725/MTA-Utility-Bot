@@ -145,7 +145,7 @@ module.exports = {
                 embed.addFields({ name: 'Status', value: 'Same rank requested' });
             }
 
-            const targetChannelId = '1265982268162183178'; // Replace with your channel ID
+            const targetChannelId = '1252137489976660041'; // Replace with your channel ID
             const targetChannel = await interaction.client.channels.fetch(targetChannelId);
 
             await targetChannel.send({ content: `${pingRole}`, embeds: [embed] });

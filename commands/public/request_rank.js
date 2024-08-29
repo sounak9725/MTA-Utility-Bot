@@ -19,6 +19,7 @@ module.exports = {
                  { name: 'Warrant Officer', value: 'warrant officer' },
                  { name: 'Officer Cadet Grade II', value: 'officer cadet grade ii' },
                  { name: 'Officer Cadet Grade III', value: 'officer cadet grade iii' },
+                 { name: 'Officer in IRF Group + Junior Lieutenant rank', value: 'officer in irf group + junior lieutenant rank' },
                  { name: 'Junior Officer', value: 'junior officer' },
                  { name: 'Staff', value: 'staff' })
                 .setRequired(true))
@@ -113,6 +114,7 @@ module.exports = {
                 case 'warrant officer':
                 case 'officer cadet grade ii':
                 case 'officer cadet grade iii':
+                case 'officer in irf group + junior lieutenant rank':    
                 case 'junior officer':
                 case 'staff':
                     pingRole = '<@&844895640692457493>';

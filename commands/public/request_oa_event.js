@@ -45,7 +45,7 @@ module.exports = {
           { name: "Essentials Lecture Pt.1", value: "Essentials Lecture Pt.1" },
           { name: "Essentials Lecture Pt.2", value: "Essentials Lecture Pt.2" },
           { name: "Knowledge Exam", value: "Knowledge Exam" },
-          {name: "Graduation", value: "Graduation"}
+          { name: "Graduation", value: "Graduation" }
         )
         .setRequired(true)
     ),
@@ -110,9 +110,15 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents(acceptButton, denyButton);
 
     const targetChannelId = "1258502611095785552"; // Replace with your channel ID
-    const targetChannel = await interaction.client.channels.fetch(
-      targetChannelId
-    );
+    let targetChannel;
+    try {
+      targetChannel = await interaction.client.channels.fetch(targetChannelId);
+    } catch (error) {
+      return interaction.editReply({
+        content: "Failed to fetch the target channel. Please try again later.",
+        ephemeral: true,
+      });
+    }
 
     // Conditional content for the message
     let messageContent =
@@ -120,14 +126,11 @@ module.exports = {
     if (eventDetails === "Knowledge Exam") {
       messageContent =
         "<@&1252454009952931881>, a new Knowledge Exam event is up for grabs!";
-    }
-    else if(eventDetails === "UT Evaluation")
-      {
-        messageContent = "<@&1059343620198633472>, a new UT Evaluation is up for grabs!"
-    }
-    else if(eventDetails === "Graduation")
-    {
-       messageContent = `<@&1059343620198633472>, a Graduation is up for grabs! <@&${interaction.user.id} you passed exam? omg`
+    } else if (eventDetails === "UT Evaluation") {
+      messageContent =
+        "<@&1059343620198633472>, a new UT Evaluation is up for grabs!";
+    } else if (eventDetails === "Graduation") {
+      messageContent = `<@&1059343620198633472>, a Graduation is up for grabs! <@&${interaction.user.id}> you passed the exam? omg!`;
     }
 
     const message = await targetChannel.send({
@@ -136,7 +139,8 @@ module.exports = {
       components: [row],
     });
 
-    const filter = (i) => ["accept", "deny"].includes(i.customId);
+    const filter = (i) =>
+      ["accept", "deny"].includes(i.customId) && i.message.id === message.id;
 
     // Set the collector's time based on the user input (convert hours to milliseconds)
     const collector = message.createMessageComponentCollector({

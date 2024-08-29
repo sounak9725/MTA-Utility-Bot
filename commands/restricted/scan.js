@@ -32,7 +32,7 @@ module.exports = {
             if (!user) {
                 return interaction.editReply({ content: 'User not found.', ephemeral: false });
             }
-            console.log("here");
+ 
             // Create an embed message
             const embed = new EmbedBuilder()
                 .setColor('#0099ff')

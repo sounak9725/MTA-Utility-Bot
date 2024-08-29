@@ -72,12 +72,12 @@ module.exports = {
             pingRole = '<@&1253089110856302734>';
         } else if (personnelType === 'oit') {
             embed.addFields({ name: 'Wing', value: 'Academy Wing' });
-            pingRole = '<@844895640692457493>';
+            pingRole = '<@&844895640692457493>';
         } else if (personnelType === 'staff') {
             embed.addFields(
                 { name: 'Primary?', value: primary ? primary : 'N/A', inline: true }
             );
-            pingRole = '<@844895585069039627>';
+            pingRole = '<@&844895585069039627>';
         }
 
         try {

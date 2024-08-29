@@ -5,9 +5,9 @@ const { requiredRoles } = require('../../config.json').discord;
 const { interactionEmbed } = require('../../functions');
 
 module.exports = {
-    name: "pend_request",
+    name: "pend_user",
     data: new SlashCommandBuilder()
-        .setName("pend_request")
+        .setName("pend_user")
         .setDescription("Request to be accepted into a Roblox group.")
         .addStringOption(option =>
             option.setName("user")
@@ -88,7 +88,7 @@ module.exports = {
                 return interaction.editReply("There was an error handling that join request.");
             });
         } else {
-            return interaction.editReply("There was an error handling that join request. The user is not in the selected group.");
+            return interaction.editReply("There was an error handling that join request. Maybe he is already accepted in the group or he is not pending in the group.");
         }
     }
 };

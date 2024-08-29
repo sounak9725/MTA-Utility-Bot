@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
 const { requiredRoles } = require('../../config.json').discord;
+const { interactionEmbed } = require("../../functions");
 
 module.exports = {
     name: 'denylog',
@@ -22,23 +23,23 @@ module.exports = {
                 .setDescription('The reason for denying the event')
                 .setRequired(true)
         ),
-     /**
+    /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
      */
-     run: async (client, interaction) => {
+    run: async (client, interaction) => {
         await interaction.deferReply({ ephemeral: true });
 
-        // Check if the user has required roles
+        // Check if the user has the required roles
         const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
         if (!hasRole) {
-        return interactionEmbed(3, "[ERR-UPRM]", '', interaction, client, [true, 30]);
+            return interactionEmbed(3, "[ERR-UPRM]", '', interaction, client, [true, 30]);
         }
 
         const user = interaction.options.getUser('user');
         const eventName = interaction.options.getString('event');
         const reason = interaction.options.getString('reason');
-        
+
         // Get the current date and time for the log
         const currentTime = new Date();
         const logTime = `<t:${Math.floor(currentTime.getTime() / 1000)}:F>`; // Discord timestamp format
@@ -52,7 +53,7 @@ module.exports = {
                 { name: 'Denied At', value: logTime, inline: true },
                 { name: 'Reason', value: reason, inline: false }
             )
-            .setFooter({ text: 'Please contact support for more details.' });
+            .setFooter({ text: `Please contact ${interaction.user.tag} for more details.` });  // Use tag for better clarity
 
         try {
             // Send the DM to the user

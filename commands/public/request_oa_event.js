@@ -130,7 +130,7 @@ module.exports = {
       messageContent =
         "<@&1059343620198633472>, a new UT Evaluation is up for grabs!";
     } else if (eventDetails === "Graduation") {
-      messageContent = `<@&1059343620198633472>, a Graduation is up for grabs! <@&${interaction.user.id}> you passed the exam? omg!`;
+      messageContent = `<@&1059343620198633472>, a Graduation is up for grabs! ${interaction.user.tag} you passed the exam? omg!`;
     }
 
     const message = await targetChannel.send({

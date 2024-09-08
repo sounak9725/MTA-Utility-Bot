@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { requiredRoles } = require('../../config.json').discord;
 const { interactionEmbed } = require('../../functions');

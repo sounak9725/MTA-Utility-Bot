@@ -16,6 +16,7 @@
     "mongoose": "^8.5.3",
     "noblox.js": "^6.0.2",
     "node-fetch": "^2.6.7",
+    "oa_admin_bot": "file:",
     "sharp": "^0.33.5"
   },
   "devDependencies": {

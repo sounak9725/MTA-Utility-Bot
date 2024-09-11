@@ -9,7 +9,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require("discord.js");
-const { getRowifi } = require("../../functions");
+const { getRowifi, interactionEmbed } = require("../../functions");
 const noblox = require("noblox.js");
 
 module.exports = {
@@ -81,6 +81,8 @@ module.exports = {
       });
     }
 
+    if(currentRankOA == "Guest") return interactionEmbed(3, `[ERR-UPRM]`, `Missing: Stop using bro, u not allowed `,interaction, client, [true, 30] );
+    
     const embed = new EmbedBuilder()
       .setColor("Purple")
       .setTitle("Event Request")
@@ -91,9 +93,9 @@ module.exports = {
           `**Time Available:** ${time}h`
       )
       .setFooter({
-        text: `Requested by ${interaction.member.user.username}`,
+        text: `Requested by ${interaction.user.username}`,
         iconURL: interaction.user.displayAvatarURL(),
-      })
+      })      
       .setTimestamp();
 
     const acceptButton = new ButtonBuilder()
@@ -175,7 +177,7 @@ module.exports = {
           );
         } catch (error) {
           console.error("Failed to send DM to the requester:", error);
-        }
+        }        
       } else if (i.customId === "deny") {
         if (i.user.id !== id) {
           return i.reply({

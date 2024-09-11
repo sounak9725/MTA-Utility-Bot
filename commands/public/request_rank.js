@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { EmbedBuilder, SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
 const noblox = require('noblox.js');
 const { getRowifi } = require('../../functions');
@@ -108,12 +109,12 @@ module.exports = {
             switch(rank.toLowerCase()) {
                 case 'instructor-in-training':
                 case 'novice drill instructor':
+                case 'officer cadet grade ii':
+                case 'officer cadet grade iii':
                 case 'senior drill instructor':
                     pingRole = '<@&1253089110856302734>';
                     break;
                 case 'warrant officer':
-                case 'officer cadet grade ii':
-                case 'officer cadet grade iii':
                 case 'officer in irf group + junior lieutenant rank':    
                 case 'junior officer':
                 case 'staff':

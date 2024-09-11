@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const { EmbedBuilder, SlashCommandBuilder, CommandInteraction, Client, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
 const moment = require('moment');
 const sharp = require('sharp');

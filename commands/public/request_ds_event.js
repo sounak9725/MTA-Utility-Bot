@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 const { EmbedBuilder, SlashCommandBuilder, CommandInteraction, Client, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { getRowifi } = require('../../functions');
+const { getRowifi, interactionEmbed } = require('../../functions');
 const noblox = require('noblox.js');
 
 module.exports = {
@@ -51,6 +52,9 @@ module.exports = {
         } catch (error) {
             return interaction.editReply({ content: 'Failed to fetch current rank. Please try again later.', ephemeral: true });
         }
+
+        if(currentRankDS == "Guest") return interactionEmbed(3, `[ERR-UPRM]`, `Missing: Stop using bro, u not allowed `,interaction, client, [true, 30] );
+
 
         const embed = new EmbedBuilder()
             .setColor('Purple')

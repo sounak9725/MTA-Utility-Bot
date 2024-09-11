@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
-
+const { interactionEmbed } = require("../../functions");
 module.exports = {
     name: 'generate_password',
     description: 'Generate a secure password and DM it to the user.',
@@ -12,7 +13,12 @@ module.exports = {
      */
     run: async (client, interaction) => {
         await interaction.deferReply({ ephemeral: true });
-
+        
+        const requiredRoles = ["1253090925115346998"];
+        const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
+        if (!hasRole) {
+            return interactionEmbed(3, "[ERR-UPRM]", '', interaction, client, [true, 30]);
+        }
         // Password generation logic
         const password = 'fpZO0__wer9ufnajsdj'; // Your predefined password
 

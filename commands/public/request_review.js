@@ -1,6 +1,7 @@
+// eslint-disable-next-line no-unused-vars
 const { EmbedBuilder, SlashCommandBuilder, Client, CommandInteraction, CommandInteractionOptionResolver } = require('discord.js');
 const noblox = require('noblox.js');
-const{ getRowifi } = require('../../functions');
+const{ getRowifi, interactionEmbed } = require('../../functions');
 
 module.exports = {
     name: 'request_review',
@@ -15,6 +16,13 @@ module.exports = {
     run: async(client, interaction) => {
         // Defer the reply to give more time for processing
         await interaction.deferReply({ ephemeral: false });
+
+        const requiredRoles = ["844896090078576651"];
+        const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
+        if (!hasRole) {
+            return interactionEmbed(3, "[ERR-UPRM]", '', interaction, client, [true, 30]);
+        }
+
         const targetChannelId = '1252151829362507816'; // Replace with the ID of the channel you want to send the message to
         
 

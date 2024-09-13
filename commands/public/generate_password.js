@@ -14,7 +14,7 @@ module.exports = {
     run: async (client, interaction) => {
         await interaction.deferReply({ ephemeral: true });
         
-        const requiredRoles = ["1253090925115346998"];
+        const requiredRoles = ["1253090925115346998", "844895864774066186", "1252144963873935371"];
         const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
         if (!hasRole) {
             return interactionEmbed(3, "[ERR-UPRM]", '', interaction, client, [true, 30]);

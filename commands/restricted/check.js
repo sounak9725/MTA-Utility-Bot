@@ -36,6 +36,8 @@ module.exports = {
       const mainRank = await nbx.getRankNameInGroup(872876, id);
       const governmentRank = await nbx.getRankNameInGroup(5248401, id);
       const militaryRank = await nbx.getRankNameInGroup(3029096, id);
+      const oaRank = await nbx.getRankInGroup(10436572, id);
+      const dsRank = await nbx.getRankInGroup(10421203, id);
       const embed = new EmbedBuilder()
         .setTitle(`${info.username}'s Profile`)
         .addFields([
@@ -47,6 +49,8 @@ module.exports = {
           { name: "Main Rank", value: mainRank, inline: false },
           { name: "Military Rank", value: militaryRank, inline: false },
           { name: "Government Rank", value: governmentRank, inline: false },
+          { name: "Officer Academy", value: oaRank || "NA", inline: false },
+          { name: "Drill School", value: dsRank || "NA", inline: false },
           { name: "Roblox profile link", value: `[Profile](https://www.roblox.com/users/${id}/profile)`, inline: false },
         ])
         .setFooter({ text: `Requested by ${interaction.member.user.username}`, iconURL: interaction.user.displayAvatarURL() })
@@ -54,8 +58,7 @@ module.exports = {
         .setColor('Aqua');
 
       const enemyGroups = [
-        { id: 5354708, name: await nbx.getRankNameInGroup(4545116, id), rank: await nbx.getRankInGroup(4545116, id) },
-        { id: 4545116, name: await nbx.getRankNameInGroup(5248163, id), rank: await nbx.getRankInGroup(5248163, id) },
+        { id: 5248163, name: await nbx.getRankNameInGroup(5248163, id), rank: await nbx.getRankInGroup(5248163, id) }
       ];
 
       const enemyInfo = enemyGroups

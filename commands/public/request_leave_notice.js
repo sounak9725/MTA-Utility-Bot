@@ -12,8 +12,8 @@ module.exports = {
                 .setDescription('The type of personnel requesting leave')
                 .setRequired(true)
                 .addChoices(
-                    { name: 'NCOs in Drill Wing', value: 'nco' },
-                    { name: 'OiTs in Academy Wing', value: 'oit' },
+                    { name: 'Drill School', value: 'nco' },
+                    { name: 'Officer Academy', value: 'oit' },
                     { name: 'Staff', value: 'staff' }
                 )
         )

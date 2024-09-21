@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+// eslint-disable-next-line no-unused-vars
 const { SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
    * @param {CommandInteraction} interaction
    */
     run: async (client, interaction) => {
-        await interaction.deferReply();
+        await interaction.deferReply( {ephemeral:false});
         const pings = [];
         const now = Date.now();
         await interaction.editReply({ content: 'Testing ping... [0/2]' });

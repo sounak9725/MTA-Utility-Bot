@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
-
+const { interactionEmbed } = require("../../functions");
 module.exports = {
     name: 'log_ia',
     description: 'Log an internal affairs report with all relevant details.',
@@ -46,12 +47,12 @@ module.exports = {
      */
     run: async (client, interaction) => {
         await interaction.deferReply({ ephemeral: true });
-        const requiredRoles = ["844895864774066186", "1252144963873935371"];
+        const requiredRoles = ["844895864774066186", "1252144963873935371", "1262484099033993278"];
 
       // Check if the user has required roles
       const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
       if (!hasRole) {
-      return interactionEmbed(3, "[ERR-UPRM]", '', interaction, client, [true, 30]);
+        return interactionEmbed(3, "[ERR-UPRM]", '', interaction, client, [true, 30]);
       }
 
         const adjudicator = interaction.options.getString('adjudicator');

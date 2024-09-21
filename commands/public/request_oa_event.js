@@ -153,7 +153,7 @@ module.exports = {
 
     collector.on("collect", async (i) => {
       if (i.customId === "accept") {
-        const allowedRoles = ["844895864774066186", "844895585069039627"]; // Replace with the actual role IDs
+        const allowedRoles = ['1252147562925002853', '844895864774066186', '1252144963873935371', "844895585069039627"];
         const hasPermission = i.member.roles.cache.some((role) =>
           allowedRoles.includes(role.id)
         );

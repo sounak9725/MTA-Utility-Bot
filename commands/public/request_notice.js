@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const { EmbedBuilder, SlashCommandBuilder, CommandInteraction, Client, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
 const moment = require('moment');
-const sharp = require('sharp');
 
 module.exports = {
     name: 'request_notice',
@@ -37,6 +36,17 @@ module.exports = {
     run: async (client, interaction) => {
         await interaction.deferReply({ ephemeral: true });
 
+        // Get the current day of the week (0 = Sunday, 6 = Saturday)
+        const currentDay = moment().day();
+
+        // Restrict the command to only work from Monday (1) to Thursday (4)
+        if (currentDay === 5 || currentDay === 6 || currentDay === 0) {
+            return interaction.editReply({
+                content: 'This command can only be used from Monday to Thursday.',
+                ephemeral: true
+            });
+        }
+
         const startDate = interaction.options.getString('start_date');
         const endDate = interaction.options.getString('end_date');
         const reason = interaction.options.getString('reason');
@@ -64,38 +74,6 @@ module.exports = {
             return interaction.editReply({ content: 'The end date cannot be earlier than the start date.', ephemeral: true });
         }
 
-        // Create an image with Sharp
-        const width = 500;
-        const height = 300;
-        const bgColor = { r: 255, g: 165, b: 0, alpha: 1 }; // Orange background
-        const borderColor = { r: 0, g: 0, b: 0, alpha: 1 }; // Black border
-
-        const imageBuffer = await sharp({
-            create: {
-                width: width + 20, // Add padding for the border
-                height: height + 20,
-                channels: 4,
-                background: borderColor
-            }
-        })
-        .composite([
-            {
-                input: Buffer.from(`<svg width="${width}" height="${height}">
-                    <rect x="10" y="10" width="${width}" height="${height}" fill="rgb(${bgColor.r}, ${bgColor.g}, ${bgColor.b})" rx="15" ry="15"/>
-                    <text x="50%" y="25%" font-size="24" font-family="Arial, sans-serif" text-anchor="left" fill="black">Inactivity Notice</text>
-                    <text x="50%" y="45%" font-size="20" font-family="Arial, sans-serif" text-anchor="left" fill="black">Username: ${username}</text>
-                    <text x="50%" y="60%" font-size="20" font-family="Arial, sans-serif" text-anchor="left" fill="black">Start Date: ${startDate}</text>
-                    <text x="50%" y="75%" font-size="20" font-family="Arial, sans-serif" text-anchor="left" fill="black">End Date: ${endDate}</text>
-                    <text x="50%" y="90%" font-size="20" font-family="Arial, sans-serif" text-anchor="left" fill="black">Reason: ${reason}</text>
-                </svg>`), 
-                left: 10, 
-                top: 10 
-            }
-        ])
-        .png()
-        .toBuffer();
-
-        const attachment = new AttachmentBuilder(imageBuffer, { name: 'inactivity_notice.png' });
 
         const embed = new EmbedBuilder()
             .setColor('Orange')
@@ -140,7 +118,7 @@ module.exports = {
         const collector = message.createMessageComponentCollector({ filter, time: 7 * 24 * 60 * 60 * 1000 }); // 1 week
 
         collector.on('collect', async i => {
-            const allowedRoles = ['1253089110856302734', '844895585069039627']; // Replace with your actual role IDs
+            const allowedRoles = ['1253089110856302734', '1252144963873935371']; // Replace with your actual role IDs
             const hasPermission = i.member.roles.cache.some(role => allowedRoles.includes(role.id));
 
             if (!hasPermission) {
@@ -149,7 +127,7 @@ module.exports = {
 
             if (i.customId === 'accept') {
                 await i.update({ content: `Inactivity notice accepted by <@!${i.user.id}>.`, components: [] });
-                await interaction.user.send({ content: `Your inactivity notice has been accepted by ${i.user.tag}.`, files: [attachment] });
+                await interaction.user.send({ content: `Your inactivity notice has been accepted by ${i.user.tag}.`});
             } else if (i.customId === 'deny') {
                 await i.update({ content: `Inactivity notice denied by <@!${i.user.id}>.`, components: [] });
                 await interaction.user.send(`Your inactivity notice has been denied by ${i.user.tag}.`);

@@ -36,8 +36,8 @@ module.exports = {
       const mainRank = await nbx.getRankNameInGroup(872876, id);
       const governmentRank = await nbx.getRankNameInGroup(5248401, id);
       const militaryRank = await nbx.getRankNameInGroup(3029096, id);
-      const oaRank = await nbx.getRankInGroup(10436572, id);
-      const dsRank = await nbx.getRankInGroup(10421203, id);
+      const oaRank = await nbx.getRankNameInGroup(10436572, id);
+      const dsRank = await nbx.getRankNameInGroup(10421203, id);
       const embed = new EmbedBuilder()
         .setTitle(`${info.username}'s Profile`)
         .addFields([

@@ -1,7 +1,7 @@
 // eslint-disable no-undef
 // eslint-disable-next-line no-unused-vars
 const { SlashCommandBuilder, Client, CommandInteraction, CommandInteractionOptionResolver, EmbedBuilder, Colors } = require("discord.js");
-const { getRowifi, interactionEmbed } = require("../../functions");
+const { getRowifi } = require("../../functions");
 const nbx = require("noblox.js");
 
 module.exports = {
@@ -33,11 +33,6 @@ module.exports = {
         // Defer the reply as this might take time
         await interaction.deferReply({ ephemeral: false });
         
-        const requiredRoles = ["844895864774066186"];
-        const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
-        if (!hasRole) {
-          return interactionEmbed(3, "[ERR-UPRM]", `You do not have permission to run this command, buddy.`, interaction, client, [true, 30]);
-        }
         const user = interaction.options.getUser("user");
         const id = user.id; // Extract the Discord ID from the selected user
         const bol = interaction.options.getBoolean("ephemeral");

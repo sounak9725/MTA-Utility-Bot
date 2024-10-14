@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { SlashCommandBuilder, EmbedBuilder, WebhookClient, Client, CommandInteraction, CommandInteractionOptionResolver } = require("discord.js");
 const roblox = require("noblox.js");
 const config = require("../../config.json");

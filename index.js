@@ -3,6 +3,7 @@ const { ApplicationCommandOptionType } = require("discord-api-types/v10");
 const { interactionEmbed, toConsole } = require("./functions.js");
 const fs = require("node:fs");
 const config = require("./config.json");
+const mongoose = require('mongoose');
 const noblox = require("noblox.js");
 let ready = false;
 const path = require("path");
@@ -32,6 +33,16 @@ client.once("ready", async () => {
 
   //Commands
   await startNoblox();
+  main().catch(err => console.log(err));
+  async function main() {
+    try {
+      await mongoose.connect(config.bot.uri);
+      console.log("Database connection established!");
+    } catch (err) {
+      console.log("Failed to connect to database: " + err);
+    }
+  }
+  //Commands
   const loadCommands = (folderPath, type) => {
     console.log(`[CMD-LOAD] Loading from folder: ${folderPath}`);
     const commandsArray = [];

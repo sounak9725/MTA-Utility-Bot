@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
 const { requiredRoles } = require('../../config.json').discord;
 const { interactionEmbed } = require("../../functions");

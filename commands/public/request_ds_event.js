@@ -19,13 +19,12 @@ module.exports = {
                 .addChoices(
                     { name: 'Co-hosting by SDI+', value: 'Co-hosting by SDI+' },
                     { name: 'IIT Introductory Lecture', value: 'IIT Introductory Lecture' },
-                    { name: 'Weapons Training', value: 'Weapons Training' },
-                    { name: 'Discipline Training', value: 'Discipline Training' },
                     { name: 'Patrol Supervision', value: 'Patrol Supervision' },
                     { name: 'Physical Training', value: 'Physical Training' },
+                    { name: 'Basic Training', value: 'Basic Training' },
+                    { name: 'Unique Training', value: 'Unique Training' },
                     { name: 'Border Protocol Supervision', value: 'Border Protocol Supervision' },
-                    { name: 'Supervision Evaluation (DI)', value: 'Supervision Evaluation (DI)' },
-                    { name: 'Evaluation', value: 'Evaluation' },
+                    { name: 'Supervision Evaluation (DI)', value: 'Supervision Evaluation (DI)' }
                 )
                 .setRequired(true)),
 
@@ -53,8 +52,9 @@ module.exports = {
             return interaction.editReply({ content: 'Failed to fetch current rank. Please try again later.', ephemeral: true });
         }
 
-        if(currentRankDS == "Guest") return interactionEmbed(3, `[ERR-UPRM]`, `Missing: Stop using bro, u not allowed `,interaction, client, [true, 30] );
-
+        if (currentRankDS === "Guest") {
+            return interactionEmbed(3, `[ERR-UPRM]`, `Missing: Stop using bro, u r not allowed `, interaction, client, [true, 30]);
+        }
 
         const embed = new EmbedBuilder()
             .setColor('Purple')
@@ -82,10 +82,18 @@ module.exports = {
 
         const row = new ActionRowBuilder().addComponents(acceptButton, denyButton);
 
-        const targetChannelId = '1258502611095785552'; // Replace with your channel ID
+        // Define the target channel and role based on the event type
+        let targetChannelId = '1258502611095785552'; // Default channel
+        let roleMention = '<@&844895864774066186>'; // Default role mentions
+
+        if (eventDetails === 'Supervision Evaluation (DI)') {
+            targetChannelId = '1252146254536900690'; // Specific channel for Supervision Evaluation
+            roleMention = '<@&1059343620198633472>'; // Specific role for Supervision Evaluation
+        }
+
         const targetChannel = await interaction.client.channels.fetch(targetChannelId);
 
-        const message = await targetChannel.send({ content: '<@&844895864774066186> <@&1252147562925002853>, a new event is up for grabs! Let\'s get to it.', embeds: [embed], components: [row] });
+        const message = await targetChannel.send({ content: `${roleMention}, a new event is up for grabs! Let's get to it.`, embeds: [embed], components: [row] });
         
         const filter = i => ['accept', 'deny'].includes(i.customId);
 

@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const { EmbedBuilder, SlashCommandBuilder, CommandInteraction, Client, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
 const moment = require('moment');
-
+const { interactionEmbed } = require('../../functions');
 module.exports = {
     name: 'request_notice',
     description: 'Submit an inactivity notice.',
@@ -35,7 +35,11 @@ module.exports = {
      */
     run: async (client, interaction) => {
         await interaction.deferReply({ ephemeral: true });
-
+        const requiredRoles = ['844895864774066186', '1253090925115346998'];
+        const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
+        if (!hasRole) {
+        return interactionEmbed(3, "[ERR-UPRM]",'', interaction, client, [true, 30]);
+        }
         // Get the current day of the week (0 = Sunday, 6 = Saturday)
         const currentDay = moment().day();
 

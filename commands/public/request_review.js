@@ -15,7 +15,7 @@ module.exports = {
    */
     run: async(client, interaction) => {
         // Defer the reply to give more time for processing
-        await interaction.deferReply({ ephemeral: false });
+        await interaction.deferReply({ ephemeral: true });
 
         const requiredRoles = ["844896090078576651"];
         const hasRole = requiredRoles.some(roleId => interaction.member.roles.cache.has(roleId));
